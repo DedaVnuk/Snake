@@ -1,0 +1,11 @@
+.snake__head {
+  height: inherit;
+  background: limegreen;
+  border-radius: 50%;
+}
+
+.snake__body-part {
+  height: inherit;
+  background: #928b8b;
+  border-radius: 50%;
+}
