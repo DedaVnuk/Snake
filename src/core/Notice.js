@@ -7,10 +7,12 @@ class Notice {
   }
 
   html(html, delay = 3) {
+    clearTimeout(this.timeout)
+
     this.$el.html(html)
-    let timeout = setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.$el.clear()
-      clearTimeout(timeout)
+      clearTimeout(this.timeout)
     }, delay * 1000)
   }
 

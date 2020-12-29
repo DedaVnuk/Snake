@@ -2,7 +2,7 @@ import { GameField } from './GameField';
 import { Snake } from './Snake';
 import { notice } from './core/Notice';
 
-const START_GAME_SPEED = 5
+const START_GAME_SPEED = 3
 
 export class Game {
 
@@ -24,8 +24,8 @@ export class Game {
     let counter = 0
     const addFood = () => {
       this.gameField.addFood(this.snake.cellsIds())
-      if(speed > 1 && ++counter % 10 === 0) {
-        --speed
+      if(speed > 0.5 && ++counter % 10 === 0) {
+        speed -= speed > 1 ? 1 : 0.5 
         this.notice('Faster!')
       }
       this.timeout = setTimeout(addFood, speed * 1000)
@@ -44,25 +44,20 @@ export class Game {
 
     if(Object.keys(keys).includes(key)) {
       try {
-        const snakeHeadId = this.snake.currentHeadCell.data('id')
+        const snakeHeadId = this.snake.currentHeadCell.dataId()
         const [row, col] = snakeHeadId.split(':')
         const cell = {row, col}
 
         const obj = keys[key]
         cell[obj.param] = obj.func(cell[obj.param])
 
-        this.snake.move(cell)
+        this.snake.move(cell).eat()
 
-        const $food = this.snake.currentHeadCell.find('.food')
-        if($food.exists()) {
-          this.snake.addBodyPart()
-          $food.remove()
-        }
       } catch (error) {
         document.removeEventListener('keydown', this.listen)
         clearTimeout(this.timeout)
 
-        this.notice('Game over')
+        this.notice('Game over', 600)
         console.log('Game over -', error.message);
       }
       

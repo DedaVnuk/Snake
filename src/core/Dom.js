@@ -29,6 +29,16 @@ class Dom {
     return func ? func(data) : data
   }
 
+  dataId(parse = false) {
+    const id = this.data('id')
+
+    if(parse) {
+      const [row, col] = id.split(':')
+      return {row, col}
+    }
+    return id
+  }
+
   append($el) {
     this.$el.append($el.$el)
     return this

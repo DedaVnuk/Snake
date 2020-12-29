@@ -17,21 +17,17 @@ export class Snake {
     this.currentHeadCell = this.initialHeadCell
     
     this.currentHeadCell.append(this.$head)
-    this.writeTrace(this.currentHeadCell.data('id'))
+    this.writeTrace(this.currentHeadCell.dataId())
 
-    let {row, col} = this.currentHeadCell.data('id', parseId)
-
-    for(let bodyPart = 0; bodyPart < 2; bodyPart++) {
-      const $cell = $(`[data-id="${++row}:${col}"]`)
-      const $bodyPart = $.create('div', ['snake__body-part'])
-      
-      $cell.append($bodyPart)
-      this.addBodyPart($bodyPart)
-    }
+    let {row, col} = this.currentHeadCell.dataId(true)
+    const $cell = $(`[data-id="${++row}:${col}"]`)
+    const $bodyPart = $.create('div', ['snake__body-part'])
+    $cell.append($bodyPart)
+    this.addBodyPart($bodyPart)
   }
 
   move({row, col}) {
-    let {row: currentRow, col: currentCol} = this.currentHeadCell.data('id', parseId)
+    let {row: currentRow, col: currentCol} = this.currentHeadCell.dataId(true)
 
     this.writeTrace(`${currentRow}:${currentCol}`)
     this.currentHeadCell = $(`[data-id="${row}:${col}"]`)
@@ -47,6 +43,19 @@ export class Snake {
       $cell.append(this.bodyParts[i])
     })
 
+    return this
+  }
+
+  eat() {
+    this.cells().forEach($cell => {
+      const $food = $cell.find('.food')
+      if($food.exists()) {
+        $food.remove()
+        this.addBodyPart()
+      }
+    })
+
+    return this
   }
 
   writeTrace(id) {
@@ -59,13 +68,12 @@ export class Snake {
   }
 
   cellsIds() {
-    const bodyParts = this.bodyParts.map(part => part.parent().exists() && part.parent().data('id'))
-    return [this.currentHeadCell?.data('id'), ...bodyParts].filter(Boolean)
+    return this.cells().map($cell => $cell.dataId())
   }
 
-}
+  cells() {
+    const bodyParts = this.bodyParts.map(part => part.parent().exists() && part.parent())
+    return [this.currentHeadCell, ...bodyParts].filter(Boolean)
+  }
 
-function parseId(id) {
-  const [row, col] = id.split(':')
-  return {row, col}
 }
