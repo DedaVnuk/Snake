@@ -59,7 +59,8 @@ export class Snake {
   }
 
   cellsIds() {
-    return [this.currentHeadCell?.data('id'), ...this.bodyParts.map(part => part?.parent()?.data('id'))].filter(Boolean)
+    const bodyParts = this.bodyParts.map(part => part.parent().exists() && part.parent().data('id'))
+    return [this.currentHeadCell?.data('id'), ...bodyParts].filter(Boolean)
   }
 
 }

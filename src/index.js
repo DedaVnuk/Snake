@@ -7,6 +7,5 @@ button.onclick = () => {
   button.style.background = 'green'
   button.setAttribute('disabled', true)
 
-  document.addEventListener('keydown', game.listen.bind(game))
   game.start()
 }

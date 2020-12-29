@@ -1,5 +1,8 @@
 import { GameField } from './GameField';
 import { Snake } from './Snake';
+import { notice } from './core/Notice';
+
+const START_GAME_SPEED = 5
 
 export class Game {
 
@@ -8,12 +11,27 @@ export class Game {
     this.gameField.draw()
 
     this.snake = new Snake(this.gameField.getCenterCell())
+    this.notice = notice()
+
+    this.listen = this.listen.bind(this)
   }
 
   start() {
-    this.foodInterval = setInterval(() => {
+    document.addEventListener('keydown', this.listen)
+    this.notice('Go!')
+
+    let speed = START_GAME_SPEED
+    let counter = 0
+    const addFood = () => {
       this.gameField.addFood(this.snake.cellsIds())
-    }, 5000);
+      if(speed > 1 && ++counter % 10 === 0) {
+        --speed
+        this.notice('Faster!')
+      }
+      this.timeout = setTimeout(addFood, speed * 1000)
+    }
+
+    this.timeout = setTimeout(addFood, speed * 1000)
   }
 
   listen({key}) {
@@ -25,7 +43,6 @@ export class Game {
     }
 
     if(Object.keys(keys).includes(key)) {
-      clearInterval(this.startInterval)
       try {
         const snakeHeadId = this.snake.currentHeadCell.data('id')
         const [row, col] = snakeHeadId.split(':')
@@ -43,6 +60,9 @@ export class Game {
         }
       } catch (error) {
         document.removeEventListener('keydown', this.listen)
+        clearTimeout(this.timeout)
+
+        this.notice('Game over')
         console.log('Game over -', error.message);
       }
       

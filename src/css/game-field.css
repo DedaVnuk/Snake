@@ -15,6 +15,7 @@
 .game-field__cell {
   border-right: 1px solid lightgrey;
   position: relative;
+  overflow: hidden;
 }
 
 .game-field__cell > p {

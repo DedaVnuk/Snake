@@ -54,6 +54,10 @@ class Dom {
     this.$el.remove()
   }
 
+  clear() {
+    this.$el.innerHTML = ''
+  }
+
 }
 
 export function $(selector) {

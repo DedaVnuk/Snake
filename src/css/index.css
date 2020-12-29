@@ -1,5 +1,6 @@
 :root {
   box-sizing: border-box;
+  --green: #2ea44f;
 }
 
 *,
@@ -17,13 +18,43 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 3rem 2rem;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+}
+
+.header__logo {
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+}
+
+.header__logo__title {
+  margin-right: 1rem;
+}
+
+.header__logo__title::first-letter {
+  color: var(--green);
 }
 
 .button {
-  box-shadow: 5px 5px 5px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.button:hover {
+  box-shadow: 0 0 7px 3px var(--green);
+}
+
+.info {
+  width: 50%;
+  height: 2.5rem;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 2rem;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .food {
@@ -35,4 +66,18 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.icon:hover {
+  box-shadow: 0 0 7px 3px var(--green);
+  border-radius: 50%;
+}
+
+.icon_github {
+  background: url('../../github-icon.png');
 }

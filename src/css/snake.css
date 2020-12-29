@@ -1,6 +1,6 @@
 .snake__head {
   height: inherit;
-  background: limegreen;
+  background: var(--green);
   border-radius: 50%;
 }
 
