@@ -14,24 +14,6 @@ export class Game {
     this.foodInterval = setInterval(() => {
       this.gameField.addFood(this.snake.cellsIds())
     }, 5000);
-
-
-    // let {row, col} = this.gameField.getCenterCell().data('id', id => {
-    //   const [row, col] = id.split(':')
-    //   return {row, col}
-    // })
-
-    // this.startInterval = setInterval(() => {
-    //   try {
-    //     //row--
-    //     //this.snake.move({row, col})
-    //   } catch (error) {
-    //     clearInterval(this.startInterval)
-    //     document.removeEventListener('keydown', this.listen)
-    //     console.log('Game over -', error.message);
-    //   }
-      
-    // }, 1000);
   }
 
   listen({key}) {
