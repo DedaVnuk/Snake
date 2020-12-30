@@ -17,11 +17,12 @@ export class GameField {
     this.height = this.numberOfRows * CELL_SIDE
     this.$root.css('height', 'auto')
 
-    this.cellIds = []
+    this.cellIds = new Set()
     this.cellsIdsWithFood = []
   }
 
   draw() {
+    this.$root.clear()
     const cellSideWithPx = `${CELL_SIDE}px`
 
     for(let rowNumber = 0; rowNumber < this.numberOfRows; rowNumber++) {
@@ -31,12 +32,11 @@ export class GameField {
         const $cell = $.create('div', ['game-field__cell'])
 
         const cellId = `${rowNumber}:${colNumber}`
-        this.cellIds.push(cellId)
+        this.cellIds.add(cellId)
 
         $cell.css('width', cellSideWithPx)
           .css('height', cellSideWithPx)
           .attr('data-id', cellId)
-          //.html(`<p>${cellId}</p>`)
 
         $row.append($cell)
       }
@@ -53,12 +53,15 @@ export class GameField {
   }
 
   addFood(snakeCells) {
-    const cellsForFood = this.cellIds.filter(id => !snakeCells.includes(id))
+    const cellsForFood = [...this.cellIds].filter(id => !snakeCells.includes(id) && !this.cellsIdsWithFood.includes(id))
 
-    const row = Math.round(Math.random() * this.numberOfRows)
-    const col = Math.round(Math.random() * this.numberOfCols)
+    if(cellsForFood.length === 0) {
+      throw new Error('All cells are busy')
+    }
 
-    const id = `${row}:${col}`
+    const randomIdIndex = Math.round(Math.random() * (cellsForFood.length-1))
+    const id = cellsForFood[randomIdIndex]
+
     if(cellsForFood.includes(id)) {
       this.cellsIdsWithFood.push(id)
 

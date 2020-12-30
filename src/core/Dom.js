@@ -17,11 +17,16 @@ class Dom {
   }
 
   attr(key, value) {
-    if(value) {
+    if(value !== undefined) {
       this.$el.setAttribute(key, value)
       return this
     }
     return this.$el.getAttribute(key)
+  }
+
+  removeAttr(key) {
+    this.$el.removeAttribute(key)
+    return this
   }
 
   data(key, func) {
@@ -66,6 +71,10 @@ class Dom {
 
   clear() {
     this.$el.innerHTML = ''
+  }
+
+  on(eventName, func) {
+    this.$el[`on${eventName}`] = func
   }
 
 }
