@@ -59,9 +59,7 @@ export class Game {
 
     if(Object.keys(keys).includes(key)) {
       try {
-        const snakeHeadId = this.snake.currentHeadCell.dataId()
-        const [row, col] = snakeHeadId.split(':')
-        const cell = {row, col}
+        const cell = this.snake.currentHeadCell.dataId(true)
 
         const obj = keys[key]
         cell[obj.param] = obj.func(cell[obj.param])
