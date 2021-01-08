@@ -30,6 +30,8 @@ html, body {
 
 .header__logo__title {
   margin-right: 1rem;
+  font-style: italic;
+  text-shadow: 0 4px 2px var(--green);
 }
 
 .header__logo__title::first-letter {
@@ -55,6 +57,9 @@ html, body {
   top: 2rem;
   text-align: center;
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .food {
@@ -80,4 +85,8 @@ html, body {
 
 .icon_github {
   background: url('../../github-icon.png');
+}
+
+.game-over__text {
+  color: red;
 }

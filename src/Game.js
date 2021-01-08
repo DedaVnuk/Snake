@@ -41,7 +41,6 @@ export class Game {
         }
         this.timeout = setTimeout(addFood, speed * 1000)
       } catch (error) {
-        clearTimeout(this.timeout)
         this.over(error.message)
       }
       
@@ -74,7 +73,7 @@ export class Game {
 
     this.init()
 
-    this.notice('Game over', 600)
+    this.notice('<p class="game-over__text">Game over</p>', 600)
     console.log('Game over -', message);
   }
 
