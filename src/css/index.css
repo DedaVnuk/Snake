@@ -1,6 +1,7 @@
 :root {
   box-sizing: border-box;
   --green: #2ea44f;
+  --box-shadow: 0 0 7px 3px var(--green);
 }
 
 *,
@@ -45,7 +46,7 @@ html, body {
 }
 
 .button:hover {
-  box-shadow: 0 0 7px 3px var(--green);
+  box-shadow: var(--box-shadow);
 }
 
 .info {
@@ -79,7 +80,7 @@ html, body {
 }
 
 .icon:hover {
-  box-shadow: 0 0 7px 3px var(--green);
+  box-shadow: var(--box-shadow);
   border-radius: 50%;
 }
 

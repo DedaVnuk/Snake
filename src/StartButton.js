@@ -20,7 +20,6 @@ export class StartButton {
 
   active() {
     this.$el.removeAttr('disabled')
-      .html('start')
       .css('pointerEvents', 'initial')
   }
 

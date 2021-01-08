@@ -1,19 +1,21 @@
 .game-field {
+  --border: 1px solid lightgrey; 
+
   background: #f1f1f1;
   height: 70vh;
   margin: 0 2rem;
-  border: 1px solid lightgrey;
+  border: var(--border);
   border-bottom: none;
   border-right: none;
 }
 
 .game-field__row {
   display: flex;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: var(--border);
 }
 
 .game-field__cell {
-  border-right: 1px solid lightgrey;
+  border-right: var(--border);
   position: relative;
   overflow: hidden;
 }

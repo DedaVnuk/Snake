@@ -81,7 +81,12 @@ export class Snake {
   }
 
   cells() {
-    const bodyParts = this.bodyParts.map(part => part.parent().exists() && part.parent())
+    const bodyParts = this.bodyParts.map(part => {
+      const $parent = part.parent()
+      if($parent.exists()) {
+        return $parent
+      }
+    })
     return [this.currentHeadCell, ...bodyParts].filter(Boolean)
   }
 
