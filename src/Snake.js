@@ -26,11 +26,20 @@ export class Snake {
     this.addBodyPart($bodyPart)
   }
 
-  move({row, col}) {
-    let {row: currentRow, col: currentCol} = this.currentHeadCell.dataId(true)
+  /**
+   * @param {Object} cell    - {row, col} new cell to move 
+   * @param {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
+   */
+  move(cell, reducer) {
+    const currentCell = this.currentHeadCell.dataId(true)
+    this.writeTrace(`${currentCell.row}:${currentCell.col}`)
 
-    this.writeTrace(`${currentRow}:${currentCol}`)
-    this.currentHeadCell = $(`[data-id="${row}:${col}"]`)
+    if(reducer) {
+      currentCell[reducer.param] = reducer.func(currentCell[reducer.param])
+      cell = currentCell
+    }
+
+    this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`)
 
     if(!this.currentHeadCell.exists()) {
       throw new Error('Snake not in the field')

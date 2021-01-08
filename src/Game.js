@@ -41,6 +41,7 @@ export class Game {
         }
         this.timeout = setTimeout(addFood, speed * 1000)
       } catch (error) {
+        clearTimeout(this.timeout)
         this.over(error.message)
       }
       
@@ -57,15 +58,10 @@ export class Game {
       ArrowLeft: {func: val => --val, param: 'col'}
     }
 
-    if(Object.keys(keys).includes(key)) {
+    const reducer = keys[key]
+    if(reducer) {
       try {
-        const cell = this.snake.currentHeadCell.dataId(true)
-
-        const obj = keys[key]
-        cell[obj.param] = obj.func(cell[obj.param])
-
-        this.snake.move(cell).eat()
-
+        this.snake.move({}, reducer).eat()
       } catch (error) {
         this.over(error.message)
       }
