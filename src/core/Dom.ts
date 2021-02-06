@@ -1,22 +1,24 @@
 class Dom {
 
-  constructor(selector) {
+  $el: any
+
+  constructor(selector: any) {
     this.$el = typeof selector === 'string' ? document.querySelector(selector) : selector
   }
 
-  find(selector) {
+  find(selector: string): Dom {
     return $(this.$el.querySelector(selector))
   }
 
-  css(key, value) {
-    if(value) {
+  css(key: string, value?: string): Dom|string {
+    if(value !== undefined) {
       this.$el.style[key] = value
       return this
     }
     return this.$el.style[key]
   }
 
-  attr(key, value) {
+  attr(key: string, value?: string|number): Dom|string {
     if(value !== undefined) {
       this.$el.setAttribute(key, value)
       return this
@@ -24,17 +26,17 @@ class Dom {
     return this.$el.getAttribute(key)
   }
 
-  removeAttr(key) {
+  removeAttr(key: string): Dom {
     this.$el.removeAttribute(key)
     return this
   }
 
-  data(key, func) {
+  data(key: string, func?: any): string {
     const data = this.$el.dataset[key]
     return func ? func(data) : data
   }
 
-  dataId(parse = false) {
+  dataId(parse: boolean = false): string|{[key: string]: string} {
     const id = this.data('id')
 
     if(parse) {
@@ -44,16 +46,16 @@ class Dom {
     return id
   }
 
-  append($el) {
+  append($el: any): Dom {
     this.$el.append($el.$el)
     return this
   }
 
-  exists() {
+  exists(): boolean {
     return !!this.$el
   }
 
-  html(html) {
+  html(html: string): Dom|string {
     if(html) {
       this.$el.innerHTML = html
       return this
@@ -61,29 +63,29 @@ class Dom {
     return this.$el.innerHTML
   }
 
-  parent() {
+  parent(): Dom {
     return $(this.$el.parentNode)
   }
 
-  remove() {
+  remove(): void {
     this.$el.remove()
   }
 
-  clear() {
+  clear(): void {
     this.$el.innerHTML = ''
   }
 
-  on(eventName, func) {
+  on(eventName: string, func: () => void): void {
     this.$el[`on${eventName}`] = func
   }
 
 }
 
-export function $(selector) {
+export function $(selector: any): Dom {
   return new Dom(selector)
 }
 
-$.create = function(tagName, classes = []) {
+$.create = function(tagName: string, classes: string[] = []): Dom {
   const $el = document.createElement(tagName)
   $el.classList.add(...classes)
 

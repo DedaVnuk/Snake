@@ -1,5 +1,5 @@
 import './css/index.css'
 import { Game } from './Game'
 
-const game = new Game()
+const game: Game = new Game()
 game.init()

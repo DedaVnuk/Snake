@@ -2,11 +2,14 @@ import { $ } from './Dom';
 
 class Notice {
 
+  $el: any
+  timeout: number
+
   constructor() {
     this.$el = $('.info')
   }
 
-  html(html, delay = 3) {
+  html(html: string, delay = 3) {
     clearTimeout(this.timeout)
 
     this.$el.html(html)
@@ -19,8 +22,8 @@ class Notice {
 }
 
 export function notice() {
-  const N = new Notice()
-  return function(html, delay) {
+  const N: Notice = new Notice()
+  return function(html: string, delay: number) {
     N.html(html, delay)
   }
 }
