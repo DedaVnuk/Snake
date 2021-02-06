@@ -31,7 +31,7 @@ class Dom {
     return this
   }
 
-  data(key: string, func?: any): string {
+  data(key: string, func?: (data: string) => string): string {
     const data = this.$el.dataset[key]
     return func ? func(data) : data
   }
