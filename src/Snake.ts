@@ -1,9 +1,18 @@
 import './css/snake.css'
 import { $ } from './core/Dom';
 
+type CellID = {row: string, col: string, [key: string]: string}
+
 export class Snake {
 
-  constructor(initialHeadCell) {
+  private initialHeadCell: any
+  private $head: any
+  private bodyParts: any[]
+  private headTrace: any[]
+
+  private currentHeadCell: any
+
+  constructor(initialHeadCell: any) {
     this.initialHeadCell = initialHeadCell
     this.$head = $.create('div', ['snake__head'])
 
@@ -19,24 +28,23 @@ export class Snake {
     this.currentHeadCell.append(this.$head)
     this.writeTrace(this.currentHeadCell.dataId())
 
-    let {row, col} = this.currentHeadCell.dataId(true)
-    const $cell = $(`[data-id="${++row}:${col}"]`)
-    const $bodyPart = $.create('div', ['snake__body-part'])
+    let {row, col}: CellID = this.currentHeadCell.dataId(true)
+    const $cell: any = $(`[data-id="${Number(row)+1}:${col}"]`)
+    const $bodyPart: any = $.create('div', ['snake__body-part'])
     $cell.append($bodyPart)
     this.addBodyPart($bodyPart)
   }
 
   /**
-   * @param {Object} cell    - {row, col} new cell to move 
-   * @param {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
+   * @param  {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
+   * @return {Snake}
    */
-  move(cell, reducer) {
-    const currentCell = this.currentHeadCell.dataId(true)
-    this.writeTrace(`${currentCell.row}:${currentCell.col}`)
+  move(reducer: {param: string, func: (val: number) => number}) {
+    const cell: CellID = this.currentHeadCell.dataId(true)
+    this.writeTrace(`${cell.row}:${cell.col}`)
 
     if(reducer) {
-      currentCell[reducer.param] = reducer.func(currentCell[reducer.param])
-      cell = currentCell
+      cell[reducer.param] = reducer.func(+cell[reducer.param]).toString()
     }
 
     this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`)
@@ -55,9 +63,9 @@ export class Snake {
     return this
   }
 
-  eat() {
+  eat(): Snake {
     this.cells().forEach($cell => {
-      const $food = $cell.find('.food')
+      const $food: any = $cell.find('.food')
       if($food.exists()) {
         $food.remove()
         this.addBodyPart()
@@ -67,25 +75,23 @@ export class Snake {
     return this
   }
 
-  writeTrace(id) {
+  writeTrace(id: string): void {
     this.headTrace.push(id)
     this.headTrace = this.headTrace.slice(-this.bodyParts.length)
   }
 
-  addBodyPart($bodyPart) {
+  addBodyPart($bodyPart?: any): void {
     this.bodyParts.push($bodyPart || $.create('div', ['snake__body-part']))
   }
 
-  cellsIds() {
+  cellsIds(): any[] {
     return this.cells().map($cell => $cell.dataId())
   }
 
-  cells() {
-    const bodyParts = this.bodyParts.map(part => {
+  cells(): any[] {
+    const bodyParts: any[] = this.bodyParts.map(part => {
       const $parent = part.parent()
-      if($parent.exists()) {
-        return $parent
-      }
+      return $parent.exists() ? $parent : null
     })
     return [this.currentHeadCell, ...bodyParts].filter(Boolean)
   }
