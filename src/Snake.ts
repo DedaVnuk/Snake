@@ -1,7 +1,7 @@
 import './css/snake.css'
 import { $ } from './core/Dom';
 
-type CellID = {row: string, col: string, [key: string]: string}
+type CellID = {[key: string]: string}
 
 export class Snake {
 
