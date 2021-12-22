@@ -1,29 +1,29 @@
-import { $ } from './Dom';
+import { $, Dom } from './Dom';
+
+import { NoticeCallbackType } from '../types';
 
 class Notice {
 
-  $el: any
-  timeout: number
+  private $el: Dom
+  timeout: number = 0
 
   constructor() {
-    this.$el = $('.info')
+    this.$el = $('.info');
   }
 
-  html(html: string, delay = 3) {
-    clearTimeout(this.timeout)
+  html(html: string, delay: number): void {
+    clearTimeout(this.timeout);
 
-    this.$el.html(html)
+    this.$el.html(html);
     this.timeout = setTimeout(() => {
-      this.$el.clear()
-      clearTimeout(this.timeout)
+      this.$el.clear();
+      clearTimeout(this.timeout);
     }, delay * 1000)
   }
 
 }
 
-export function notice() {
-  const N: Notice = new Notice()
-  return function(html: string, delay: number) {
-    N.html(html, delay)
-  }
+export function notice(): NoticeCallbackType {
+  const N: Notice = new Notice();
+  return (html: string, delay: number = 3) => N.html(html, delay);
 }

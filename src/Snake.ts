@@ -1,99 +1,101 @@
 import './css/snake.css'
-import { $ } from './core/Dom';
-
-type CellID = {[key: string]: string}
+import { $, Dom } from './core/Dom';
+import { 
+  Reducer,
+  CellID,
+} from './types';
 
 export class Snake {
 
-  private initialHeadCell: any
-  private $head: any
-  private bodyParts: any[]
-  private headTrace: any[]
+  private initialHeadCell: Dom
+  private $head: Dom
+  private bodyParts: Dom[]
+  private headTrace: string[]
 
-  private currentHeadCell: any
+  private currentHeadCell: Dom
 
-  constructor(initialHeadCell: any) {
-    this.initialHeadCell = initialHeadCell
-    this.$head = $.create('div', ['snake__head'])
+  constructor(initialHeadCell: Dom) {
+    this.initialHeadCell = initialHeadCell;
+    this.currentHeadCell = initialHeadCell;
 
-    this.bodyParts = []
-    this.headTrace = []
+    this.$head = $.create('div', ['snake__head']);
 
-    this.init()
+    this.bodyParts = [];
+    this.headTrace = [];
+
+    this.init();
   }
   
   init() {
-    this.currentHeadCell = this.initialHeadCell
-    
-    this.currentHeadCell.append(this.$head)
-    this.writeTrace(this.currentHeadCell.dataId())
+    this.currentHeadCell.append(this.$head);
+    this.writeTrace(String(this.currentHeadCell.dataId()));
 
-    let {row, col}: CellID = this.currentHeadCell.dataId(true)
-    const $cell: any = $(`[data-id="${Number(row)+1}:${col}"]`)
-    const $bodyPart: any = $.create('div', ['snake__body-part'])
-    $cell.append($bodyPart)
-    this.addBodyPart($bodyPart)
+    let {row, col}: CellID = this.currentHeadCell.dataId(true) as CellID;
+    const $cell: Dom = $(`[data-id="${Number(row)+1}:${col}"]`);
+    const $bodyPart: Dom = $.create('div', ['snake__body-part']);
+    $cell.append($bodyPart);
+    this.addBodyPart($bodyPart);
   }
 
   /**
    * @param  {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
    * @return {Snake}
    */
-  move(reducer: {param: string, func: (val: number) => number}) {
-    const cell: CellID = this.currentHeadCell.dataId(true)
-    this.writeTrace(`${cell.row}:${cell.col}`)
+  move(reducer: Reducer) {
+    const cell: CellID = this.currentHeadCell.dataId(true) as CellID;
+    this.writeTrace(`${cell.row}:${cell.col}`);
 
     if(reducer) {
-      cell[reducer.param] = reducer.func(+cell[reducer.param]).toString()
+      cell[reducer.param] = reducer.func(+cell[reducer.param]).toString();
     }
 
-    this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`)
+    this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`);
 
     if(!this.currentHeadCell.exists()) {
-      throw new Error('Snake not in the field')
+      throw new Error('Snake not in the field');
     }
 
-    this.currentHeadCell.append(this.$head)
+    this.currentHeadCell.append(this.$head);
 
     this.headTrace.forEach((traceId, i) => {
-      const $cell = $(`[data-id="${traceId}"]`)
-      $cell.append(this.bodyParts[i])
+      const $cell = $(`[data-id="${traceId}"]`);
+      $cell.append(this.bodyParts[i]);
     })
 
-    return this
+    return this;
   }
 
   eat(): Snake {
     this.cells().forEach($cell => {
-      const $food: any = $cell.find('.food')
+      const $food: Dom = $cell.find('.food');
       if($food.exists()) {
-        $food.remove()
-        this.addBodyPart()
+        $food.remove();
+        this.addBodyPart();
       }
     })
 
-    return this
+    return this;
   }
 
   writeTrace(id: string): void {
-    this.headTrace.push(id)
-    this.headTrace = this.headTrace.slice(-this.bodyParts.length)
+    this.headTrace.push(id);
+    this.headTrace = this.headTrace.slice(-this.bodyParts.length);
   }
 
-  addBodyPart($bodyPart?: any): void {
-    this.bodyParts.push($bodyPart || $.create('div', ['snake__body-part']))
+  addBodyPart($bodyPart?: Dom): void {
+    this.bodyParts.push($bodyPart || $.create('div', ['snake__body-part']));
   }
 
-  cellsIds(): any[] {
-    return this.cells().map($cell => $cell.dataId())
+  cellsIds(): string[] {
+    return this.cells().map($cell => String($cell.dataId()));
   }
 
-  cells(): any[] {
-    const bodyParts: any[] = this.bodyParts.map(part => {
-      const $parent = part.parent()
-      return $parent.exists() ? $parent : null
+  cells(): Dom[] {
+    const bodyParts: Dom[] = this.bodyParts.map(part => {
+      const $parent = part.parent();
+      return $parent.exists() ? $parent : null!;
     })
-    return [this.currentHeadCell, ...bodyParts].filter(Boolean)
+    return [this.currentHeadCell, ...bodyParts].filter(Boolean);
   }
 
 }

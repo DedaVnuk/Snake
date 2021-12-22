@@ -1,5 +1,4 @@
-import './css/index.css'
-import { Game } from './Game'
+import './css/index.css';
+import { start } from './Game';
 
-const game: Game = new Game()
-game.init()
+start();

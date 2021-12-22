@@ -1,28 +1,28 @@
-import { $ } from './core/Dom';
+import { $, Dom } from './core/Dom';
 
 export class StartButton {
 
-  private $el: any
+  private $el: Dom
 
   constructor() {
-    this.$el = $('#start-game-button')
+    this.$el = $('#start-game-button');
   }
 
-  startGame(func: () => void) {
+  startGame(func: () => void): void {
     this.$el.on('click', () => {
-      func.call(null)
-      this.disable()
+      func();
+      this.disable();
     })
   }
 
-  disable() {
-    this.$el.attr('disabled', true)
-      .css('pointerEvents', 'none')
+  disable(): void {
+    (this.$el.attr('disabled', true) as Dom)
+      .css('pointerEvents', 'none');
   }
 
-  active() {
+  active(): void {
     this.$el.removeAttr('disabled')
-      .css('pointerEvents', 'initial')
+      .css('pointerEvents', 'initial');
   }
 
 }
