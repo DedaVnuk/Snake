@@ -5,13 +5,13 @@ import { NoticeCallbackType } from '../types';
 class Notice {
 
   private $el: Dom
-  timeout: number = 0
+  timeout: number|undefined
 
   constructor() {
     this.$el = $('.info');
   }
 
-  html(html: string, delay: number): void {
+  show(html: string, delay: number): void {
     clearTimeout(this.timeout);
 
     this.$el.html(html);
@@ -25,5 +25,5 @@ class Notice {
 
 export function notice(): NoticeCallbackType {
   const N: Notice = new Notice();
-  return (html: string, delay: number = 3) => N.html(html, delay);
+  return (html: string, delay: number = 3) => N.show(html, delay);
 }

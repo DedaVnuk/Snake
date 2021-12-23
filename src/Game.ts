@@ -15,7 +15,7 @@ class Game {
   private notice: NoticeCallbackType
   private startButton: StartButton
   private snake!: Snake
-  private timeout: number = 0
+  private timeout: number|undefined
 
   constructor() {
     this.gameField = new GameField();
@@ -81,8 +81,7 @@ class Game {
     clearTimeout(this.timeout);
 
     this.init();
-    // TODO не показывается Game over, хотя появляется в DOM
-    this.notice('<span class="game-over__text">Game over</span>', 6);
+    this.notice('<span class="game-over__text">Game over</span>', 10);
     console.log('Game over -', message);
   }
 

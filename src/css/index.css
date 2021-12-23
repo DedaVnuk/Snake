@@ -50,17 +50,11 @@ html, body {
 }
 
 .info {
-  width: 50%;
-  height: 2.5rem;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   top: 2rem;
-  text-align: center;
   font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .food {

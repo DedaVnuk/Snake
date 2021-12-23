@@ -1,4 +1,4 @@
-import { CellID, ElementAttrValueType } from '../types';
+import { CellID, ElementAttrValueType } from './../types';
 
 class Dom {
 
@@ -44,7 +44,7 @@ class Dom {
     return func ? func(data) : data;
   }
 
-  dataId(parse: boolean = false): string|CellID {
+  dataId(parse: boolean = false): CellID|string {
     const id = this.data('id');
 
     if(parse) {
@@ -55,7 +55,7 @@ class Dom {
   }
 
   append($el: Dom): Dom {
-    this.$el.append($el.$el);
+    this.$el.append($el.element);
     return this;
   }
 
@@ -63,7 +63,7 @@ class Dom {
     return !!this.$el;
   }
 
-  html(html: string): Dom|string {
+  html(html?: string): Dom|string {
     if(html) {
       this.$el.innerHTML = html;
       return this;
