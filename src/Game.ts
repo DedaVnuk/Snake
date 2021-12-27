@@ -81,7 +81,7 @@ class Game {
     clearTimeout(this.timeout);
 
     this.init();
-    this.notice('<span class="game-over__text">Game over</span>', 10);
+    this.notice('<span class="text_game-over">Game over</span>', 10);
     console.log('Game over -', message);
   }
 
