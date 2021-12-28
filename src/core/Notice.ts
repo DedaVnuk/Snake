@@ -4,8 +4,8 @@ import { NoticeCallbackType } from '../types';
 
 class Notice {
 
-  private $el: Dom
-  timeout: number|undefined
+  private $el: Dom;
+  timeout: number|undefined;
 
   constructor() {
     this.$el = $('.info');
@@ -18,7 +18,7 @@ class Notice {
     this.timeout = setTimeout(() => {
       this.$el.clear();
       clearTimeout(this.timeout);
-    }, delay * 1000)
+    }, delay * 1000);
   }
 
 }

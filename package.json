@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/SumarokovV/Snake#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.5.0",
     "parcel-bundler": "^1.12.4",
     "typescript": "^4.1.3"
-  },
-  "dependencies": {}
+  }
 }

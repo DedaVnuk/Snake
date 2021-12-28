@@ -7,8 +7,8 @@ type CellID = {[key: string]: string};
 type ElementAttrValueType = string|number|boolean;
 
 export {
-	NoticeCallbackType,
-	Reducer,
-	CellID,
-	ElementAttrValueType,
-}
+  NoticeCallbackType,
+  Reducer,
+  CellID,
+  ElementAttrValueType,
+};

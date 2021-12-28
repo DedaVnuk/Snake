@@ -1,17 +1,17 @@
-import './css/game-field.css'
+import './css/game-field.css';
 import { $, Dom } from './core/Dom';
 
 import { CELL_SIDE } from './consts';
 
 export class GameField {
 
-  private $root: Dom
-  private numberOfRows: number
-  private numberOfCols: number
+  private $root: Dom;
+  private numberOfRows: number;
+  private numberOfCols: number;
 
-  private width: number
-  private cellIds: Set<string>
-  private cellsIdsWithFood: string[]
+  private width: number;
+  private cellIds: Set<string>;
+  private cellsIdsWithFood: string[];
 
   constructor(selector = '.game-field') {
     this.$root = $(selector);

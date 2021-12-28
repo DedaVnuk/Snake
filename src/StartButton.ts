@@ -2,7 +2,7 @@ import { $, Dom } from './core/Dom';
 
 export class StartButton {
 
-  private $el: Dom
+  private $el: Dom;
 
   constructor() {
     this.$el = $('#start-game-button');
@@ -12,7 +12,7 @@ export class StartButton {
     this.$el.on('click', () => {
       func();
       this.disable();
-    })
+    });
   }
 
   disable(): void {

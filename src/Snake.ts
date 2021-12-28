@@ -1,4 +1,4 @@
-import './css/snake.css'
+import './css/snake.css';
 import { $, Dom } from './core/Dom';
 import { 
   Reducer,
@@ -7,12 +7,12 @@ import {
 
 export class Snake {
 
-  private initialHeadCell: Dom
-  private $head: Dom
-  private bodyParts: Dom[]
-  private headTrace: string[]
+  private initialHeadCell: Dom;
+  private $head: Dom;
+  private bodyParts: Dom[];
+  private headTrace: string[];
 
-  private currentHeadCell: Dom
+  private currentHeadCell: Dom;
 
   constructor(initialHeadCell: Dom) {
     this.initialHeadCell = initialHeadCell;
@@ -30,7 +30,7 @@ export class Snake {
     this.currentHeadCell.append(this.$head);
     this.writeTrace(String(this.currentHeadCell.dataId()));
 
-    let {row, col}: CellID = this.currentHeadCell.dataId(true) as CellID;
+    const {row, col}: CellID = this.currentHeadCell.dataId(true) as CellID;
     const $cell: Dom = $(`[data-id="${Number(row)+1}:${col}"]`);
     const $bodyPart: Dom = $.create('div', ['snake__body-part']);
     $cell.append($bodyPart);
@@ -60,7 +60,7 @@ export class Snake {
     this.headTrace.forEach((traceId, i) => {
       const $cell = $(`[data-id="${traceId}"]`);
       $cell.append(this.bodyParts[i]);
-    })
+    });
 
     return this;
   }
@@ -72,7 +72,7 @@ export class Snake {
         $food.remove();
         this.addBodyPart();
       }
-    })
+    });
 
     return this;
   }
@@ -91,10 +91,7 @@ export class Snake {
   }
 
   cells(): Dom[] {
-    const bodyParts: Dom[] = this.bodyParts.map(part => {
-      const $parent = part.parent();
-      return $parent.exists() ? $parent : null!;
-    })
+    const bodyParts: Dom[] = this.bodyParts.filter((part: Dom) => part.parent());
     return [this.currentHeadCell, ...bodyParts].filter(Boolean);
   }
 

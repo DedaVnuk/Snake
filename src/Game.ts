@@ -11,11 +11,11 @@ import {
 
 class Game {
 
-  private gameField: GameField
-  private notice: NoticeCallbackType
-  private startButton: StartButton
-  private snake!: Snake
-  private timeout: number|undefined
+  private gameField: GameField;
+  private notice: NoticeCallbackType;
+  private startButton: StartButton;
+  private snake!: Snake;
+  private timeout: number|undefined;
 
   constructor() {
     this.gameField = new GameField();
@@ -33,7 +33,7 @@ class Game {
       this.gameField.draw();
       this.start();
       this.snake = new Snake(this.gameField.getCenterCell());
-    })
+    });
   }
 
   start(): void {
@@ -53,7 +53,7 @@ class Game {
       } catch (error) {
         error instanceof Error && this.over(error.message);
       }
-    }
+    };
 
     this.timeout = setTimeout(addFood, speed * 1000);
   }
@@ -64,7 +64,7 @@ class Game {
       ArrowRight: {func: val => ++val, param: 'col'},
       ArrowDown: {func: val => ++val, param: 'row'},
       ArrowLeft: {func: val => --val, param: 'col'}
-    }
+    };
 
     const reducer: Reducer = keys[key];
     if(reducer) {

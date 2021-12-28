@@ -2,10 +2,10 @@ import { CellID, ElementAttrValueType } from './../types';
 
 class Dom {
 
-  private $el: HTMLElement
+  private $el: HTMLElement;
 
   constructor(selector: HTMLElement|string) {
-    this.$el = typeof selector === 'string' ? document.querySelector(selector)! : selector;
+    this.$el = typeof selector === 'string' ? document.querySelector(selector) as HTMLElement : selector;
   }
 
   get element(): HTMLElement {
@@ -31,7 +31,7 @@ class Dom {
       return this;
     }
 
-    return this.$el.getAttribute(key)!;
+    return String(this.$el.getAttribute(key));
   }
 
   removeAttr(key: string): Dom {
@@ -40,7 +40,7 @@ class Dom {
   }
 
   data(key: string, func?: (data: string) => string): string {
-    const data = this.$el.dataset[key]!;
+    const data = String(this.$el.dataset[key]);
     return func ? func(data) : data;
   }
 
@@ -98,9 +98,9 @@ $.create = function(tagName: string, classes: string[] = []): Dom {
   $el.classList.add(...classes);
 
   return $($el);
-}
+};
 
 export {
   $,
   Dom,
-}
+};
