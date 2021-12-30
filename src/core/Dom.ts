@@ -84,7 +84,11 @@ class Dom {
   }
 
   on(eventName: string, func: (event?: Event) => void): void {
-    this.$el.addEventListener(eventName, func);
+    this.$el.addEventListener(eventName, func, true);
+  }
+
+  off(eventName: string, func: (event?: Event) => void): void {
+    this.$el.removeEventListener(eventName, func, true);
   }
 
 }

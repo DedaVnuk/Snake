@@ -27,17 +27,21 @@ class Game {
 
     this.listen = this.listen.bind(this);
     this.startButton = new StartButton();
+
+    this.startButtonClickHandler = this.startButtonClickHandler.bind(this);
   }
 
   init(): void {
     this.startButton.active();
-    this.startButton.startGame(() => {
-      this.gameField.draw();
-      this.snake = new Snake(this.gameField.getCenterCell());
-      this.start();
-    });
+    this.startButton.startGame(this.startButtonClickHandler);
 
     // this.autorun();
+  }
+
+  private startButtonClickHandler(): void {
+    this.gameField.draw();
+    this.snake = new Snake(this.gameField.getCenterCell());
+    this.start();
   }
 
   private autorun(): void {

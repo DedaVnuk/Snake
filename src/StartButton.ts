@@ -3,16 +3,21 @@ import { $, Dom } from './core/Dom';
 export class StartButton {
 
   private $el: Dom;
+  private clickHandler!: () => void;
 
   constructor() {
     this.$el = $('#start-game-button');
   }
 
   startGame(func: () => void): void {
-    this.$el.on('click', () => {
+    this.$el.off('click', this.clickHandler);
+
+    this.clickHandler = () => {
       func();
       this.disable();
-    });
+    };
+
+    this.$el.on('click', this.clickHandler);
   }
 
   disable(): void {
