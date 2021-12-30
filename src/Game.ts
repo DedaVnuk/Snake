@@ -33,14 +33,14 @@ class Game {
     this.startButton.active();
     this.startButton.startGame(() => {
       this.gameField.draw();
-      this.start();
       this.snake = new Snake(this.gameField.getCenterCell());
+      this.start();
     });
 
-    this.autorun();
+    // this.autorun();
   }
 
-  autorun(): void {
+  private autorun(): void {
     if(!this.isStarted) {
       this.notice([
         {html: 'Ready?', delay: 3},
@@ -56,7 +56,7 @@ class Game {
     }
   }
 
-  start(): void {
+  private start(): void {
     this.isStarted = true;
 
     document.addEventListener('keydown', this.listen);
@@ -71,16 +71,19 @@ class Game {
           speed -= speed > 1 ? 1 : 0.5;
           this.notice(speed >= 1 ? 'Faster!' : 'Run!');
         }
-        this.timeout = setTimeout(addFood, speed * 1000);
+        const timer: number = setTimeout(() => {
+          addFood();
+          clearTimeout(timer);
+        }, speed * 1000);
       } catch (error) {
         error instanceof Error && this.over(error.message);
       }
     };
 
-    this.timeout = setTimeout(addFood, speed * 1000);
+    addFood();
   }
 
-  listen({key}: KeyboardEvent): void {
+  private listen({key}: KeyboardEvent): void {
     const keys: Record<string, Reducer> = {
       ArrowUp: {func: val => --val, param: 'row'},
       ArrowRight: {func: val => ++val, param: 'col'},
@@ -98,14 +101,14 @@ class Game {
     }
   }
 
-  over(message: string = 'try once more'): void {
+  private over(message: string = 'try once more'): void {
     document.removeEventListener('keydown', this.listen);
     clearTimeout(this.timeout);
 
     this.init();
     this.notice([
       {html: '<span class="text_game-over">Game over</span>', delay: 5},
-      {html: '🠔 Press Start button to play again', delay: 100},
+      // {html: '🠔 Press Start button to play again', delay: 100},
     ]);
     console.log('Game over -', message);
   }

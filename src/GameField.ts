@@ -29,7 +29,10 @@ export class GameField {
   }
 
   draw() {
+    this.cellIds.clear();
+    this.cellsIdsWithFood = [];
     this.$root.clear();
+
     const cellSideWithPx: string = `${CELL_SIDE}px`;
 
     for(let rowNumber = 0; rowNumber < this.numberOfRows; rowNumber++) {

@@ -8,7 +8,6 @@ import {
 
 export class Snake {
 
-  private initialHeadCell: Dom;
   private $head: Dom;
   private bodyParts: Dom[];
   private headTrace: string[];
@@ -16,7 +15,6 @@ export class Snake {
   private currentHeadCell: Dom;
 
   constructor(initialHeadCell: Dom) {
-    this.initialHeadCell = initialHeadCell;
     this.currentHeadCell = initialHeadCell;
 
     this.$head = $.create('div', ['snake__head']);
@@ -27,7 +25,7 @@ export class Snake {
     this.init();
   }
   
-  init() {
+  private init(): void {
     this.currentHeadCell.append(this.$head);
     this.writeTrace(String(this.currentHeadCell.dataId()));
 
@@ -42,7 +40,7 @@ export class Snake {
    * @param  {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
    * @return {Snake}
    */
-  move(reducer: Reducer) {
+  move(reducer: Reducer): Snake {
     const cell: CellID = this.currentHeadCell.dataId(true) as CellID;
     this.writeTrace(`${cell.row}:${cell.col}`);
 
@@ -78,21 +76,21 @@ export class Snake {
     return this;
   }
 
-  writeTrace(id: string): void {
+  private writeTrace(id: string): void {
     this.headTrace.push(id);
     this.headTrace = this.headTrace.slice(-this.bodyParts.length);
   }
 
-  addBodyPart($bodyPart?: Dom): void {
+  private addBodyPart($bodyPart?: Dom): void {
     this.bodyParts.push($bodyPart || $.create('div', ['snake__body-part']));
   }
 
   cellsIds(): string[] {
-    return this.cells().map($cell => String($cell.dataId()));
+    return this.cells().map(($cell: Dom) => String($cell.dataId()));
   }
 
-  cells(): Dom[] {
-    const bodyParts: Dom[] = this.bodyParts.filter((part: Dom) => part.parent());
+  private cells(): Dom[] {
+    const bodyParts: Dom[] = this.bodyParts.map((bodyPart: Dom) => bodyPart.parent());
     return [this.currentHeadCell, ...bodyParts].filter(Boolean);
   }
 
