@@ -3,6 +3,7 @@ import { $, Dom } from './core/Dom';
 import { 
   Reducer,
   CellID,
+  CellIdKeys,
 } from './types';
 
 export class Snake {
@@ -46,7 +47,7 @@ export class Snake {
     this.writeTrace(`${cell.row}:${cell.col}`);
 
     if(reducer) {
-      cell[reducer.param] = reducer.func(+cell[reducer.param]).toString();
+      cell[reducer.param as CellIdKeys] = reducer.func(+cell[reducer.param as CellIdKeys]).toString();
     }
 
     this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`);

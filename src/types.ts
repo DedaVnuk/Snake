@@ -12,6 +12,8 @@ type CellID = {
   col: string;
 };
 
+type CellIdKeys = keyof CellID;
+
 type ElementAttrValueType = string|number|boolean;
 
 export {
@@ -19,5 +21,6 @@ export {
   NoticeChainItem,
   Reducer,
   CellID,
+  CellIdKeys,
   ElementAttrValueType,
 };
