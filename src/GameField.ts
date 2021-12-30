@@ -81,4 +81,10 @@ export class GameField {
     }
   }
 
+  removeFood(cellId: string): void {
+    const index: number = this.cellsIdsWithFood.findIndex((id: string) => id === cellId);
+    delete this.cellsIdsWithFood[index];
+    this.cellsIdsWithFood = this.cellsIdsWithFood.filter(Boolean);
+  }
+
 }

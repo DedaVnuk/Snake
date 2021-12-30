@@ -94,7 +94,12 @@ class Game {
     const reducer: Reducer = keys[key];
     if(reducer) {
       try {
-        this.snake.move(reducer).eat();
+        const snakeHeadCellId: string = this.snake
+          .move(reducer)
+          .eat()
+          .head.parent()
+          .dataId() as string;
+        this.gameField.removeFood(snakeHeadCellId);
       } catch (error) {
         error instanceof Error && this.over(error.message);
       }

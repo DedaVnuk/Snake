@@ -36,6 +36,10 @@ export class Snake {
     this.addBodyPart($bodyPart);
   }
 
+  get head(): Dom {
+    return this.$head;
+  }
+
   /**
    * @param  {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
    * @return {Snake}
