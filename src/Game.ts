@@ -17,6 +17,8 @@ class Game {
   private snake!: Snake;
   private timeout: number|undefined;
 
+  private isStarted: boolean = false;
+
   constructor() {
     this.gameField = new GameField();
     this.gameField.draw();
@@ -34,9 +36,29 @@ class Game {
       this.start();
       this.snake = new Snake(this.gameField.getCenterCell());
     });
+
+    this.autorun();
+  }
+
+  autorun(): void {
+    if(!this.isStarted) {
+      this.notice([
+        {html: 'Ready?', delay: 3},
+        {html: '3', delay: 4},
+        {html: '2', delay: 5},
+        {html: '1', delay: 4},
+      ]);
+
+      const timeout: number = setTimeout(() => {
+        this.startButton.click();
+        clearTimeout(timeout);
+      }, 6000);
+    }
   }
 
   start(): void {
+    this.isStarted = true;
+
     document.addEventListener('keydown', this.listen);
     this.notice('Go!');
 

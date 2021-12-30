@@ -25,4 +25,8 @@ export class StartButton {
       .css('pointerEvents', 'initial');
   }
 
+  click(): void {
+    this.$el.element.click();
+  }
+
 }

@@ -25,13 +25,15 @@ class Notice {
     notifications.forEach((notification: NoticeChainItem, notificationIndex: number) => {
       const notificationDelay: number = notification?.delay ?? delay;
 
+      const showFunc = this.show.bind(this, notification.html, notificationDelay);
+
       if(notificationIndex === 0) {
-        this.show(notification.html, notificationDelay);
+        showFunc();
       } else {
         const prevItemTime: number = notifications[notificationIndex - 1]?.delay ?? notificationDelay;
 
         const timer: number = setTimeout(() => {
-          this.show(notification.html, notificationDelay);
+          showFunc();
           clearTimeout(timer);
         }, prevItemTime * 1000);
       }
