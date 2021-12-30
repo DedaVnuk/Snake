@@ -90,8 +90,11 @@ export class Snake {
   }
 
   private cells(): Dom[] {
-    const bodyParts: Dom[] = this.bodyParts.map((bodyPart: Dom) => bodyPart.parent());
-    return [this.currentHeadCell, ...bodyParts].filter(Boolean);
+    const bodyParts: (Dom|null)[] = this.bodyParts.map((bodyPart: Dom) => {
+      const $parent: Dom = bodyPart.parent();
+      return $parent.exists() ? $parent : null;
+    });
+    return [this.currentHeadCell, ...bodyParts].filter(Boolean) as Dom[];
   }
 
 }
