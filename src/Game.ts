@@ -3,7 +3,7 @@ import { Snake } from './Snake';
 import { notice } from './core/Notice';
 import { StartButton } from './StartButton';
 
-import { START_GAME_SPEED } from './consts';
+import { START_GAME_SPEED, KEY_REDUCERS } from './consts';
 import { 
   NoticeCallbackType,
   Reducer,
@@ -15,7 +15,6 @@ class Game {
   private notice: NoticeCallbackType;
   private startButton: StartButton;
   private snake!: Snake;
-  private timeout: number|undefined;
 
   private isStarted: boolean = false;
 
@@ -29,19 +28,22 @@ class Game {
     this.startButton = new StartButton();
 
     this.startButtonClickHandler = this.startButtonClickHandler.bind(this);
-  }
 
-  init(): void {
-    this.startButton.active();
-    this.startButton.startGame(this.startButtonClickHandler);
-
-    // this.autorun();
+    this.init();
   }
 
   private startButtonClickHandler(): void {
     this.gameField.draw();
     this.snake = new Snake(this.gameField.getCenterCell());
     this.start();
+  }
+
+  private init(): void {
+    this.startButton.active();
+    this.startButton.startGame(this.startButtonClickHandler);
+
+    //TODO
+    // this.autorun();
   }
 
   private autorun(): void {
@@ -66,36 +68,30 @@ class Game {
     document.addEventListener('keydown', this.listen);
     this.notice('Go!');
 
-    let speed: number = START_GAME_SPEED;
-    let counter: number = 0;
-    const addFood = () => {
-      try {
-        this.gameField.addFood(this.snake.cellsIds());
-        if(speed > 0.5 && ++counter % 10 === 0) {
-          speed -= speed > 1 ? 1 : 0.5;
-          this.notice(speed >= 1 ? 'Faster!' : 'Run!');
-        }
-        const timer: number = setTimeout(() => {
-          addFood();
-          clearTimeout(timer);
-        }, speed * 1000);
-      } catch (error) {
-        error instanceof Error && this.over(error.message);
-      }
-    };
+    this.addFood();
+  }
 
-    addFood();
+  private addFood(speed = START_GAME_SPEED, counter = 0) {
+    try {
+      this.gameField.addFood(this.snake.cellsIds());
+
+      if(speed > 0.5 && ++counter % 10 === 0) {
+        speed -= speed > 1 ? 1 : 0.5;
+        this.notice(speed >= 1 ? 'Faster!' : 'Run!');
+      }
+
+      const timer: number = setTimeout(() => {
+        this.addFood(speed, counter);
+        clearTimeout(timer);
+      }, speed * 1000);
+    } catch (error) {
+      error instanceof Error && this.over(error.message);
+    }
   }
 
   private listen({key}: KeyboardEvent): void {
-    const keys: Record<string, Reducer> = {
-      ArrowUp: {func: val => --val, param: 'row'},
-      ArrowRight: {func: val => ++val, param: 'col'},
-      ArrowDown: {func: val => ++val, param: 'row'},
-      ArrowLeft: {func: val => --val, param: 'col'}
-    };
+    const reducer: Reducer = KEY_REDUCERS[key];
 
-    const reducer: Reducer = keys[key];
     if(reducer) {
       try {
         const snakeHeadCellId: string = this.snake
@@ -103,6 +99,7 @@ class Game {
           .eat()
           .head.parent()
           .dataId() as string;
+
         this.gameField.removeFood(snakeHeadCellId);
       } catch (error) {
         error instanceof Error && this.over(error.message);
@@ -112,7 +109,6 @@ class Game {
 
   private over(message: string = 'try once more'): void {
     document.removeEventListener('keydown', this.listen);
-    clearTimeout(this.timeout);
 
     this.init();
     this.notice([
@@ -124,7 +120,4 @@ class Game {
 
 }
 
-export function start() {
-  const game: Game = new Game();
-  game.init();
-}
+export const start = () => new Game();
