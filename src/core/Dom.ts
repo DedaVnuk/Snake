@@ -1,4 +1,4 @@
-import { CellID, ElementAttrValueType } from './../types';
+import { CellID, ElementAttrValueType, EventHandler } from './../types';
 
 class Dom {
 
@@ -17,21 +17,21 @@ class Dom {
   }
 
   css(key: string, value?: string): Dom|string {
-    if(value !== undefined) {
-      this.$el.style.setProperty(key, value);
-      return this;
+    if(value === undefined) {
+      return this.$el.style.getPropertyValue(key);
     }
 
-    return this.$el.style.getPropertyValue(key);
+    this.$el.style.setProperty(key, value);
+    return this;
   }
 
   attr(key: string, value?: ElementAttrValueType): Dom|string {
-    if(value !== undefined) {
-      this.$el.setAttribute(key, String(value));
-      return this;
+    if(value === undefined) {
+      return String(this.$el.getAttribute(key));
     }
 
-    return String(this.$el.getAttribute(key));
+    this.$el.setAttribute(key, String(value));
+    return this;
   }
 
   removeAttr(key: string): Dom {
@@ -83,11 +83,11 @@ class Dom {
     this.$el.innerHTML = '';
   }
 
-  on(eventName: string, func: (event?: Event) => void): void {
+  on(eventName: string, func: EventHandler): void {
     this.$el.addEventListener(eventName, func, true);
   }
 
-  off(eventName: string, func: (event?: Event) => void): void {
+  off(eventName: string, func: EventHandler): void {
     this.$el.removeEventListener(eventName, func, true);
   }
 

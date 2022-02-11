@@ -16,6 +16,8 @@ type CellIdKeys = keyof CellID;
 
 type ElementAttrValueType = string|number|boolean;
 
+type EventHandler = (event?: Event) => void;
+
 export {
   NoticeCallbackType,
   NoticeChainItem,
@@ -23,4 +25,5 @@ export {
   CellID,
   CellIdKeys,
   ElementAttrValueType,
+  EventHandler,
 };
