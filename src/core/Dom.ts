@@ -1,11 +1,11 @@
-import { ElementAttrValueType, EventHandler } from '../types/utils';
+import { ElementAttrValueType, EventHandler, Func } from '../types/utils';
 import { CellID } from './../types/Cell';
 
 class Dom {
 
   private $el: HTMLElement;
 
-  constructor(selector: HTMLElement|string) {
+  constructor(selector: HTMLElement | string) {
     this.$el = typeof selector === 'string' ? document.querySelector(selector) as HTMLElement : selector;
   }
 
@@ -26,7 +26,7 @@ class Dom {
     return this;
   }
 
-  attr(key: string, value?: ElementAttrValueType): Dom|string {
+  attr(key: string, value?: ElementAttrValueType): Dom | string {
     if(value === undefined) {
       return String(this.$el.getAttribute(key));
     }
@@ -40,12 +40,12 @@ class Dom {
     return this;
   }
 
-  data(key: string, func?: (data: string) => string): string {
+  data(key: string, func?: Func<string>): string {
     const data = String(this.$el.dataset[key]);
     return func ? func(data) : data;
   }
 
-  dataId(parse: boolean = false): CellID|string {
+  dataId(parse: boolean = false): CellID | string {
     const id = this.data('id');
 
     if(parse) {
@@ -64,7 +64,7 @@ class Dom {
     return !!this.$el;
   }
 
-  html(html?: string): Dom|string {
+  html(html?: string): Dom | string {
     if(html) {
       this.$el.innerHTML = html;
       return this;
@@ -94,7 +94,7 @@ class Dom {
 
 }
 
-function $(selector: HTMLElement|string): Dom {
+function $(selector: HTMLElement | string): Dom {
   return new Dom(selector);
 }
 

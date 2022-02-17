@@ -1,6 +1,7 @@
 import { CellIdKeys } from './Cell';
+import { Func } from './utils';
 
-type Reducer = {func: (val: number) => number, param: CellIdKeys};
+type Reducer = {func: Func<number>, param: CellIdKeys};
 
 type ReducerKey = 'ArrowUp' | 'ArrowRight' | 'ArrowDown' | 'ArrowLeft'; 
 

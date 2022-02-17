@@ -1,8 +1,11 @@
 type ElementAttrValueType = string | number | boolean;
 
-type EventHandler = (event?: Event) => void;
+type Func<T, S = T> = (...args: T[]) => S;
+
+type EventHandler = Func<Event, void>;
 
 export {
   ElementAttrValueType,
   EventHandler,
+  Func,
 };

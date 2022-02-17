@@ -46,7 +46,7 @@ export class Snake {
     this.writeTrace(`${cell.row}:${cell.col}`);
 
     if(reducer) {
-      cell[reducer.param as CellIdKeys] = reducer.func(+cell[reducer.param as CellIdKeys]).toString();
+      cell[reducer.param] = reducer.func(+cell[reducer.param]).toString();
     }
 
     this.currentHeadCell = $(`[data-id="${cell.row}:${cell.col}"]`);

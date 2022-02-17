@@ -1,15 +1,16 @@
 import { $, Dom } from './core/Dom';
+import { EventHandler, Func } from './types/utils';
 
 export class StartButton {
 
   private $el: Dom;
-  private clickHandler!: () => void;
+  private clickHandler!: EventHandler;
 
   constructor() {
     this.$el = $('#start-game-button');
   }
 
-  startGame(func: () => void): void {
+  startGame(func: Func<void>): void {
     this.$el.off('click', this.clickHandler);
 
     this.clickHandler = () => {
