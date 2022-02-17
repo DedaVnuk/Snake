@@ -1,10 +1,7 @@
 import './css/snake.css';
 import { $, Dom } from './core/Dom';
-import { 
-  Reducer,
-  CellID,
-  CellIdKeys,
-} from './types';
+import { CellID, CellIdKeys } from './types/Cell';
+import { Reducer } from './types/Reducer';
 
 export class Snake {
 

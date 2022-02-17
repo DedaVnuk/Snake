@@ -1,6 +1,6 @@
 import { $, Dom } from './Dom';
 
-import { NoticeCallbackType, NoticeChainItem } from '../types';
+import { NoticeCallbackType, NoticeChainItem } from './../types/Notice';
 
 class Notice {
 

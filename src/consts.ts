@@ -1,10 +1,10 @@
-import { Reducer } from './types';
+import { Reducer, ReducerKey } from './types/Reducer';
 
 const START_GAME_SPEED: number = 3;
 
 const CELL_SIDE: number = 30;
 
-const KEY_REDUCERS: Record<string, Reducer> = {
+const KEY_REDUCERS: Record<ReducerKey, Reducer> = {
   ArrowUp: {func: val => --val, param: 'row'},
   ArrowRight: {func: val => ++val, param: 'col'},
   ArrowDown: {func: val => ++val, param: 'row'},

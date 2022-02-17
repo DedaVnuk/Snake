@@ -1,4 +1,5 @@
-import { CellID, ElementAttrValueType, EventHandler } from './../types';
+import { ElementAttrValueType, EventHandler } from '../types/utils';
+import { CellID } from './../types/Cell';
 
 class Dom {
 

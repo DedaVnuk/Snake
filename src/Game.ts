@@ -4,10 +4,8 @@ import { notice } from './core/Notice';
 import { StartButton } from './StartButton';
 
 import { START_GAME_SPEED, KEY_REDUCERS } from './consts';
-import { 
-  NoticeCallbackType,
-  Reducer,
-} from './types';
+import { NoticeCallbackType } from './types/Notice';
+import { Reducer, ReducerKey } from './types/Reducer';
 
 class Game {
 
@@ -90,7 +88,7 @@ class Game {
   }
 
   private listen({key}: KeyboardEvent): void {
-    const reducer: Reducer = KEY_REDUCERS[key];
+    const reducer: Reducer = KEY_REDUCERS[key as ReducerKey];
 
     if(reducer) {
       try {
