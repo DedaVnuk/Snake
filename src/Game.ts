@@ -6,6 +6,7 @@ import { StartButton } from './StartButton';
 import { START_GAME_SPEED, KEY_REDUCERS } from './consts';
 import { NoticeCallbackType } from './types/Notice';
 import { Reducer, ReducerKey } from './types/Reducer';
+import { CellID } from './types/Cell';
 
 class Game {
 
@@ -92,11 +93,11 @@ class Game {
 
     if(reducer) {
       try {
-        const snakeHeadCellId: string = this.snake
+        const snakeHeadCellId = this.snake
           .move(reducer)
           .eat()
           .head.parent()
-          .dataId() as string;
+          .dataId<CellID>();
 
         this.gameField.removeFood(snakeHeadCellId);
       } catch (error) {

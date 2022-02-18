@@ -2,6 +2,7 @@ import './css/game-field.css';
 import { $, Dom } from './core/Dom';
 
 import { CELL_SIDE } from './consts';
+import { CellID } from './types/Cell';
 
 export class GameField {
 
@@ -10,8 +11,8 @@ export class GameField {
   private numberOfCols: number;
 
   private width: number;
-  private cellIds: Set<string>;
-  private cellsIdsWithFood: string[];
+  private cellIds: Set<CellID>;
+  private cellsIdsWithFood: CellID[];
 
   constructor(selector = '.game-field') {
     this.$root = $(selector);
@@ -41,7 +42,7 @@ export class GameField {
       for(let colNumber = 0; colNumber < this.numberOfCols; colNumber++) {
         const $cell: Dom = $.create('div', ['game-field__cell']);
 
-        const cellId: string = `${rowNumber}:${colNumber}`;
+        const cellId: CellID = `${rowNumber}:${colNumber}`;
         this.cellIds.add(cellId);
 
 
@@ -63,15 +64,15 @@ export class GameField {
     return this.$root.find(`[data-id="${row}:${col}"]`);
   }
 
-  addFood(snakeCells: string[]) {
-    const cellsForFood: string[] = [...this.cellIds].filter(id => !snakeCells.includes(id) && !this.cellsIdsWithFood.includes(id));
+  addFood(snakeCells: CellID[]) {
+    const cellsForFood = [...this.cellIds].filter(id => !snakeCells.includes(id) && !this.cellsIdsWithFood.includes(id));
 
     if(cellsForFood.length === 0) {
       throw new Error('All cells are busy');
     }
 
     const randomIdIndex: number = Math.round(Math.random() * (cellsForFood.length-1));
-    const id: string = cellsForFood[randomIdIndex];
+    const id = cellsForFood[randomIdIndex];
 
     if(cellsForFood.includes(id)) {
       this.cellsIdsWithFood.push(id);
@@ -81,8 +82,8 @@ export class GameField {
     }
   }
 
-  removeFood(cellId: string): void {
-    const index: number = this.cellsIdsWithFood.findIndex((id: string) => id === cellId);
+  removeFood(cellId: CellID): void {
+    const index: number = this.cellsIdsWithFood.findIndex(id => id === cellId);
     delete this.cellsIdsWithFood[index];
     this.cellsIdsWithFood = this.cellsIdsWithFood.filter(Boolean);
   }

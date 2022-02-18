@@ -1,13 +1,13 @@
 import './css/snake.css';
 import { $, Dom } from './core/Dom';
-import { CellID, CellIdKeys } from './types/Cell';
+import { Cell, CellID } from './types/Cell';
 import { Reducer } from './types/Reducer';
 
 export class Snake {
 
   private $head: Dom;
   private bodyParts: Dom[];
-  private headTrace: string[];
+  private headTrace: CellID[];
 
   private currentHeadCell: Dom;
 
@@ -24,9 +24,9 @@ export class Snake {
   
   private init(): void {
     this.currentHeadCell.append(this.$head);
-    this.writeTrace(String(this.currentHeadCell.dataId()));
+    this.writeTrace(this.currentHeadCell.dataId());
 
-    const {row, col}: CellID = this.currentHeadCell.dataId(true) as CellID;
+    const {row, col} = this.currentHeadCell.dataId<Cell>(true);
     const $cell: Dom = $(`[data-id="${Number(row)+1}:${col}"]`);
     const $bodyPart: Dom = $.create('div', ['snake__body-part']);
     $cell.append($bodyPart);
@@ -37,12 +37,8 @@ export class Snake {
     return this.$head;
   }
 
-  /**
-   * @param  {Object} reducer - {param: 'row' || 'col', func - action with param(increment, decrement)} 
-   * @return {Snake}
-   */
   move(reducer: Reducer): Snake {
-    const cell: CellID = this.currentHeadCell.dataId(true) as CellID;
+    const cell = this.currentHeadCell.dataId<Cell>(true);
     this.writeTrace(`${cell.row}:${cell.col}`);
 
     if(reducer) {
@@ -77,7 +73,7 @@ export class Snake {
     return this;
   }
 
-  private writeTrace(id: string): void {
+  private writeTrace(id: CellID): void {
     this.headTrace.push(id);
     this.headTrace = this.headTrace.slice(-this.bodyParts.length);
   }
@@ -86,12 +82,12 @@ export class Snake {
     this.bodyParts.push($bodyPart || $.create('div', ['snake__body-part']));
   }
 
-  cellsIds(): string[] {
-    return this.cells().map(($cell: Dom) => String($cell.dataId()));
+  cellsIds(): CellID[] {
+    return this.cells().map(($cell: Dom) => $cell.dataId());
   }
 
   private cells(): Dom[] {
-    const bodyParts: (Dom|null)[] = this.bodyParts.map((bodyPart: Dom) => {
+    const bodyParts: (Dom | null)[] = this.bodyParts.map((bodyPart: Dom) => {
       const $parent: Dom = bodyPart.parent();
       return $parent.exists() ? $parent : null;
     });

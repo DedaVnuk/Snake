@@ -1,5 +1,5 @@
 import { ElementAttrValueType, EventHandler, Func } from '../types/utils';
-import { CellID } from './../types/Cell';
+import { Cell, CellID } from './../types/Cell';
 
 class Dom {
 
@@ -17,7 +17,7 @@ class Dom {
     return $(this.$el.querySelector(selector) as HTMLElement);
   }
 
-  css(key: string, value?: string): Dom|string {
+  css(key: string, value?: string): Dom | string {
     if(value === undefined) {
       return this.$el.style.getPropertyValue(key);
     }
@@ -45,14 +45,14 @@ class Dom {
     return func ? func(data) : data;
   }
 
-  dataId(parse: boolean = false): CellID | string {
-    const id = this.data('id');
+  dataId<T extends Cell | CellID>(parse: boolean = false): T {
+    const id = <CellID>this.data('id');
 
     if(parse) {
       const [row, col]: string[] = id.split(':');
-      return {row, col};
+      return <T>{row, col};
     }
-    return id;
+    return <T>id;
   }
 
   append($el: Dom): Dom {
